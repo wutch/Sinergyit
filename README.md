@@ -72,3 +72,46 @@ Sinergyit Soruları
 
     KargoKontrolu aşaması - Kargo başarılıysa sistem nihai başarı durumu olan SiparisTamamlandi durumuna geçer.
     Kargo başarısızsa telafi işlemi başlatılır ve sistem OdemeIadeEdildi durumuna geçer.
+
+## Logging
+
+*Logging nedir, hangi problemleri çözer?*
+
+    Logging bir yazılımın çalışması sırasında meydana gelen olayların hataların ve durum değişikliklerinin
+    timestamplerle birlikte kaydedilmesidir. Uygulamanın arka planda ne yaptığını anlamamıza yarar.
+    
+    Loglar bir hata oluştuğunda sistemin o anki durumunu göstererek hatanın kaynağını bulmamızı sağlar
+    Uygulamanın beklenene göre uygun çalışıp çalışmadığını gösterir.Sisteme kimin ne zaman ve nereden eriştiğini
+    takip etmemizi, başarısız giriş denemelerini, yetkisiz erişimlerleri tespit etmemizi sağlar.
+    Dağıtık sistemlerde bir işlem başarısız olduğunda hatanın yazdığımız kodda mı yoksa dışarıdan çağırdığımız bir serviste mi olduğunu anlamamızı sağlar.
+
+*Log, metric ve trace arasındaki fark nedir?*
+
+    Log sistemdeki bir olayın metin tabanlı kaydıdır. Hata ayıklarken en çok detayı loglardan elde ederiz
+    temel olarak kullanma amacımız hata analizi ve detaylı inceleme yapmak
+    
+    Metric sistemin genel sağlığını gösteren sayısal ölçümlerdir sistem yöneticilerini uyarmak 
+    alarm kurmak ve dashboard hazırlamak için kullanılır. Metrikler tekil olaylarla ilgilenmez genel trende bakar
+    temel olarak kullanma amacımız alarm kullanmak ve canlı sistem izlemek.
+    
+    Trace özellikle mikroservis mimarilerinde kullanıcı isteğinin sistem içindeki yolculuğunu gösterir.
+    İstek hangi servislerden geçti veritabanında ne kadar bekledi API a ne kadar sürede bağlandı gibi bilgileri
+    span adı verilen işlem ağaçlarıyla sunar, temel kullanım amacımız performansı düşüren nedenleri bulmak.
+
+*Log seviyeleri (Trace–Critical) ne anlama gelir; hangi durumda hangisi seçilir?*
+
+    Log seviyeleri uygulamanızın ürettiği kayıtları önem derecesine göre sınıflandırmamızı sağlar. 
+    Bu sınıflandırma sayesinde gereksiz detaylar yerine kritik sorunlara odaklanabilir ve otomatik alarmlar kurabiliriz.
+    
+    Trace en ince detayları içeren kodun satır satır nasıl çalıştığını gösteren seviyedir.
+    Yalnızca karmaşık bir bug çözülmeye çalışılırken geçici olarak açılır. Algoritma içindeki döngü adımlarını
+    if else bloklarına girilip girilmediğini veya çok büyük veri setlerinin işlenme anındaki anlık durumlarını
+    görmek istediğimizde Trace yi seçeriz.
+
+    Critical uygulamanın çalışmasını tamamen durduran anında müdahale gerektiren senaryolardır.
+    Bu log tetiklendiğinde uygulama muhtemelen çökmüştür. Ana veritabanına hiçbir şekilde ulaşılamadığında sunucuda disk tamamen
+    dolduğunda veya uygulama bellek yetersizliğinden kapandığında seçilir.
+
+    
+
+    
