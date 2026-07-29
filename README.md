@@ -112,6 +112,44 @@ Sinergyit Soruları
     Bu log tetiklendiğinde uygulama muhtemelen çökmüştür. Ana veritabanına hiçbir şekilde ulaşılamadığında sunucuda disk tamamen
     dolduğunda veya uygulama bellek yetersizliğinden kapandığında seçilir.
 
-    
+*Structured logging nedir, düz metne göre avantajı nedir?*
+
+    Structured logging log mesajlarını düz bir metin cümlesi yerine makine tarafından okunabilen formatta kaydeder.
+    Amacı logları sadece insanların okuyabileceği şekilde olmaktan çıkarıp Elasticsearch, Datadog, Seq gibi 
+    log yönetim araçlarının analiz edebileceği veri tabanı kayıtlarına dönüştürmektir.
+
+Avantajları
+
+    *Kesin ve performanslı sorgulama yapmamızı sağlar. Veriler indekslenmiş özellikler olarak tutulduğu
+    için SQL benzeri filtrelemeler yapılabilmemizi sağlar.
+
+    *Veriler parsed olarak geldiği için Regex kullanmaya gerek kalmaz. Mesaj şablonu değişse de 
+    properties altındaki veri yapısı ve indeksleme mekanizması bozulmaz.
+
+    *Sayısal değerler kendi veri tipleriyle tutulur. Bu sayede log yönetim araçları üzerinden toplam, ortalama,
+    maksimum gibi fonksiyonlar çalıştırılarak canlı metrik grafikleri ve dashboardları otomatik olarak oluşturabiliriz.
+
+*Log formatı olarak JSON seçmenin artı/eksi yönleri nelerdir?*
+
+Avantajları 
+
+    *Elasticsearch, Datadog, Splunk, Seq gibi log toplama ve analiz araçlarının tamamı JSON formatını destekler.
+    Verileri sisteme aktarmak için özel bir ayrıştırıcı yazmaya gerek kalmaz.
+
+    *Düz metin loglarında her şey bir string iken, JSON formatı veri tiplerini korur. integerler, booleanlar
+    ve arrayler veri tipleriyle indekslenir. Bu sayede matematiksel sorgular doğrudan çalıştırılabilir.
+
+    *Sistemin mevcut yapısını bozmadan log kayıtlarına yeni özellikler eklenebilir.
+
+Dezavantajları
+
+    *JSON formatı yazıları çok kalabalık bir formattır. Her bir log satırında tırnak işaretleri ve parantezler 
+    birkaç defa yazılır. Bu durum log dosyalarının düz metne kıyasla diskte çok daha fazla yer kaplamasına ve 
+    ağ üzerinden taşınırken daha fazla bant genişliği tüketmesine neden olur.
+
+    *Konsol üzerinden veya bir metin dosyasından JSON loglarını okumak çok zordur.
+
+    *Nesnelerin ve değişkenlerin JSON stringine dönüştürülmesi, düz bir metin birleştirmeye göre daha fazla CPU ve RAM tüketir.
+
 
     
