@@ -151,5 +151,28 @@ Dezavantajları
 
     *Nesnelerin ve değişkenlerin JSON stringine dönüştürülmesi, düz bir metin birleştirmeye göre daha fazla CPU ve RAM tüketir.
 
+*ILogger<T> nasıl çalışır, kategori kavramı nedir?*
+
+    ILogger<T> uygulamadaki olayları kaydetmek için kullanılan bir arayüzdür log mesajlarını oluşturmak ve 
+    log sağlayıcılarına iletmektir Bir sınıfta loglama yapmak istediğimizde sınıfın kurucu metoduna ILogger<T> ekleriz
+    .NET in DI kapsayıcısı çalışma zamanında bu sınıf için özel bir loglayıcı örneği oluşturur ve enjekte eder.
+   	Log gönderirken mesajın önem derecesini belirtiriz. ILogger<T> logları kendisi bir dosyaya veya veritabanına yazmaz
+    sadece bir aracıdır. Bizim yapılandırdığınız sağlayıcılar mesajı yakalar ve kendi hedeflerine yazarlar.
+
+    Kategori  log mesajının hangi kaynaktan geldiğini belirten bir string etiketidir.
+    ILogger<UserService> kullandığımızda arka planda <T> olarak verdiğimiz tipin tam adı kategori ismi olarak atanır.
+
+*appsettings.json ile minimum level ve kategori bazlı filtre nasıl yapılır?*
+
+    Bir kategori için minimum seviye belirlediğimizde o seviye ve onun altındaki seviyeler loglanır. Örneğin seviye warningse
+    warning error ve critical loglarını görürüz. appsettings.json dosyasında kategori bazlı filtreleme yapmak için LogLevel düğümünün
+    altına hedeflediğiniz namespace i veya sınıfın tam adını yazarız. Burdaki kural log mekanizması hiyerarşik çalışır bir log geldiğinde 
+    yapılandırmadaki en uzun eşleşen kategori ismini dikkate alır. Filtrelemek istediğimiz sınıfın veya namespacenin adını LogLevel
+    altına yapıştırıp karşısına Trace Debug Information Warning Error Critical değerlerinden birini yazarak filtreleyebiliriz.
+
+*ASP.NET Core’da istek/yanıt (request/response) loglama nerede ve nasıl uygulanmalıdır?*
+
+    ASP.NET Core da istek ve yanıt loglama işlemleri middleware katmanında uygulanmalıdır. Middleware uygulamamıza gelen
+    HTTP isteğini controller a ulaşmadan önce yakalar ve controller den çıkan yanıtı istemciye dönmeden önce inceler
 
     
